@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+bool isFibonacci(int num) {
+	if (num < 0) return false;
+
+	int a = 0, b = 1;
+	while (b <= num) {
+		if (b == num)
+			return true;
+		int next = a + b;
+		a = b;
+		b = next;
+	}
+	return false;
+}
+
+int main() {
+	int number;
+	cout << "Enter a number to check if it's in the Fibonacci series: ";
+	cin >> number;
+
+	if (isFibonacci(number))
+		cout << number << " is in the Fibonacci series." << endl;
+	else
+		cout << number << " is NOT in the Fibonacci series." << endl;
+
+	return 0;
+}
