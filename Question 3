@@ -1,0 +1,90 @@
+#include <iostream>
+using namespace std;
+
+class Power {
+private:
+    double base;
+    int exponent;
+    double result;
+
+public:
+    Power(double b = 0, int e = 0) : base(b), exponent(e), result(1) {}
+    
+    // Using 'this' pointer with arithmetic operator
+    Power* calculate() {
+        this->result = 1;
+        for (int i = 0; i < this->exponent; i++) {
+            this->result *= this->base;
+        }
+        return this;
+    }
+    
+    // Using 'this' pointer with assignment operator
+    Power& setValues(double b, int e) {
+        this->base = b;
+        this->exponent = e;
+        return *this;
+    }
+    
+    // Using 'this' pointer with comparison operator
+    bool operator==(const Power& other) {
+        return (this->base == other.base && this->exponent == other.exponent);
+    }
+    
+    // Using 'this' pointer with relational operator
+    bool operator>(const Power& other) {
+        this->calculate();
+        Power temp = other;
+        temp.calculate();
+        return (this->result > temp.result);
+    }
+    
+    // Using 'this' pointer with unary operator
+    Power& operator++() {
+        this->exponent++;
+        return *this;
+    }
+    
+    // Using 'this' pointer with binary operator
+    Power operator+(const Power& other) {
+        Power temp;
+        temp.base = this->base;
+        temp.exponent = this->exponent + other.exponent;
+        return temp;
+    }
+    
+    void display() {
+        cout << this->base << " ^ " << this->exponent << " = " << this->result << endl;
+    }
+    
+    double getResult() { return this->result; }
+};
+
+int main() {
+    Power p1, p2;
+    double base;
+    int exp;
+    
+    cout << "Enter base: ";
+    cin >> base;
+    cout << "Enter exponent: ";
+    cin >> exp;
+    
+    p1.setValues(base, exp)->calculate();
+    cout << "\nResult: ";
+    p1.display();
+    
+    cout << "\nIncrementing exponent (++operator)...\n";
+    ++p1;
+    p1.calculate();
+    p1.display();
+    
+    p2.setValues(2, 3)->calculate();
+    cout << "\nComparing with 2^3:\n";
+    if (p1 > p2)
+        cout << "First power is greater" << endl;
+    else
+        cout << "Second power is greater or equal" << endl;
+    
+    return 0;
+}
