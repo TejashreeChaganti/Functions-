@@ -1,0 +1,94 @@
+Question 4  #include <iostream>
+#include <string>
+using namespace std;
+
+// Base class for Person
+class Person {
+protected:
+    string name;
+    int age;
+public:
+    Person(string n = "", int a = 0) : name(n), age(a) {}
+    void displayPerson() {
+        cout << "Name: " << name << ", Age: " << age << endl;
+    }
+};
+
+// Base class for Academics
+class Academics {
+protected:
+    string subject;
+    float marks;
+public:
+    Academics(string s = "", float m = 0) : subject(s), marks(m) {}
+    void displayAcademics() {
+        cout << "Subject: " << subject << ", Marks: " << marks << endl;
+    }
+};
+
+// HIERARCHICAL INHERITANCE: Multiple classes inherit from Person
+class Teacher : public Person {
+private:
+    string department;
+    int experience;
+public:
+    Teacher(string n, int a, string dept, int exp) 
+        : Person(n, a), department(dept), experience(exp) {}
+    
+    void displayTeacher() {
+        displayPerson();
+        cout << "Department: " << department << ", Experience: " << experience << " years" << endl;
+    }
+};
+
+class Staff : public Person {
+private:
+    string role;
+    double salary;
+public:
+    Staff(string n, int a, string r, double s) 
+        : Person(n, a), role(r), salary(s) {}
+    
+    void displayStaff() {
+        displayPerson();
+        cout << "Role: " << role << ", Salary: $" << salary << endl;
+    }
+};
+
+// MULTIPLE INHERITANCE: Inherits from both Person and Academics
+class Student : public Person, public Academics {
+private:
+    int rollNo;
+    string grade;
+public:
+    Student(string n, int a, int roll, string subj, float m, string g) 
+        : Person(n, a), Academics(subj, m), rollNo(roll), grade(g) {}
+    
+    void displayStudent() {
+        cout << "\n--- Student Details ---" << endl;
+        displayPerson();
+        cout << "Roll No: " << rollNo << endl;
+        displayAcademics();
+        cout << "Grade: " << grade << endl;
+    }
+};
+
+int main() {
+    cout << "=== EDUCATION SYSTEM ===" << endl << endl;
+    
+    // Hierarchical Inheritance Demo
+    Teacher t1("Dr. Smith", 45, "Computer Science", 20);
+    cout << "--- Teacher (Hierarchical Inheritance) ---" << endl;
+    t1.displayTeacher();
+    
+    cout << endl;
+    Staff s1("John Doe", 35, "Librarian", 45000);
+    cout << "--- Staff (Hierarchical Inheritance) ---" << endl;
+    s1.displayStaff();
+    
+    // Multiple Inheritance Demo
+    Student st1("Alice Johnson", 20, 101, "Mathematics", 95.5, "A+");
+    st1.displayStudent();
+    
+    return 0;
+}
