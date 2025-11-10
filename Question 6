@@ -1,0 +1,103 @@
+Question 6  #include <iostream>
+#include <string>
+using namespace std;
+
+// SINGLE LEVEL INHERITANCE - Base class
+class Account {
+protected:
+    int accountNumber;
+    string accountHolder;
+    double balance;
+public:
+    Account(int accNo = 0, string holder = "", double bal = 0.0) 
+        : accountNumber(accNo), accountHolder(holder), balance(bal) {}
+    
+    void deposit(double amount) {
+        balance += amount;
+        cout << "Deposited $" << amount << ". New balance: $" << balance << endl;
+    }
+    
+    void displayAccount() {
+        cout << "Account No: " << accountNumber << endl;
+        cout << "Holder: " << accountHolder << endl;
+        cout << "Balance: $" << balance << endl;
+    }
+};
+
+// SINGLE LEVEL INHERITANCE - SavingsAccount inherits from Account
+class SavingsAccount : public Account {
+private:
+    float interestRate;
+public:
+    SavingsAccount(int accNo, string holder, double bal, float rate)
+        : Account(accNo, holder, bal), interestRate(rate) {}
+    
+    void addInterest() {
+        double interest = balance * interestRate / 100;
+        balance += interest;
+        cout << "Interest added: $" << interest << endl;
+    }
+    
+    void displaySavings() {
+        cout << "\n--- Savings Account (Single Level Inheritance) ---" << endl;
+        displayAccount();
+        cout << "Interest Rate: " << interestRate << "%" << endl;
+    }
+};
+
+// MULTILEVEL INHERITANCE - Level 1
+class Bank {
+protected:
+    string bankName;
+    string branch;
+public:
+    Bank(string name = "", string br = "") : bankName(name), branch(br) {}
+    void displayBank() {
+        cout << "Bank: " << bankName << ", Branch: " << branch << endl;
+    }
+};
+
+// MULTILEVEL INHERITANCE - Level 2
+class BankAccount : public Bank {
+protected:
+    int accountNo;
+    double balance;
+public:
+    BankAccount(string name, string br, int acc, double bal)
+        : Bank(name, br), accountNo(acc), balance(bal) {}
+    void displayBankAccount() {
+        displayBank();
+        cout << "Account No: " << accountNo << ", Balance: $" << balance << endl;
+    }
+};
+
+// MULTILEVEL INHERITANCE - Level 3
+class CurrentAccount : public BankAccount {
+private:
+    double overdraftLimit;
+public:
+    CurrentAccount(string name, string br, int acc, double bal, double limit)
+        : BankAccount(name, br, acc, bal), overdraftLimit(limit) {}
+    
+    void displayCurrent() {
+        cout << "\n--- Current Account (Multilevel Inheritance) ---" << endl;
+        displayBankAccount();
+        cout << "Overdraft Limit: $" << overdraftLimit << endl;
+    }
+};
+
+int main() {
+    cout << "=== BANKING SYSTEM ===\n" << endl;
+    
+    // Single Level Inheritance Demo
+    SavingsAccount sa(1001, "John Doe", 5000, 4.5);
+    sa.displaySavings();
+    sa.deposit(1000);
+    sa.addInterest();
+    
+    // Multilevel Inheritance Demo
+    CurrentAccount ca("City Bank", "Downtown", 2001, 10000, 5000);
+    ca.displayCurrent();
+    
+    return 0;
+}
