@@ -1,0 +1,67 @@
+Question 5  #include <iostream>
+#include <string>
+using namespace std;
+
+// MULTILEVEL INHERITANCE - Level 1
+class Institution {
+protected:
+    string name;
+    string location;
+public:
+    Institution(string n = "", string l = "") : name(n), location(l) {}
+    void displayInstitution() {
+        cout << "Institution: " << name << ", Location: " << location << endl;
+    }
+};
+
+// MULTILEVEL INHERITANCE - Level 2
+class University : public Institution {
+protected:
+    string type;
+    int ranking;
+public:
+    University(string n, string l, string t, int r) 
+        : Institution(n, l), type(t), ranking(r) {}
+    void displayUniversity() {
+        displayInstitution();
+        cout << "Type: " << type << ", Ranking: " << ranking << endl;
+    }
+};
+
+// Base class for Academics
+class Academics {
+protected:
+    string program;
+    float gpa;
+public:
+    Academics(string p = "", float g = 0.0) : program(p), gpa(g) {}
+    void displayAcademics() {
+        cout << "Program: " << program << ", GPA: " << gpa << endl;
+    }
+};
+
+// MULTILEVEL + MULTIPLE INHERITANCE
+// UniversityStudent inherits from University (multilevel) and Academics (multiple)
+class UniversityStudent : public University, public Academics {
+private:
+    int studentID;
+    string degree;
+public:
+    UniversityStudent(string n, string l, string t, int r, string p, float g, int id, string d)
+        : University(n, l, t, r), Academics(p, g), studentID(id), degree(d) {}
+    
+    void displayStudent() {
+        cout << "\n=== UNIVERSITY STUDENT DETAILS ===" << endl;
+        displayUniversity();
+        cout << "Student ID: " << studentID << endl;
+        displayAcademics();
+        cout << "Degree: " << degree << endl;
+    }
+};
+
+int main() {
+    UniversityStudent s1("MIT", "Cambridge, MA", "Research University", 1, 
+                         "Computer Science", 3.9, 12345, "Bachelor of Science");
+    s1.displayStudent();
+    return 0;
+}
